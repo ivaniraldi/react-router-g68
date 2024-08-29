@@ -7,3 +7,10 @@
   padding-left: 50px;
   padding-right: 50px;
 }
+.landingPage{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
