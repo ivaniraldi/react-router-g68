@@ -1,26 +1,14 @@
 import NavigationBar from "../components/NavigationBar"
 import UserCard from "../components/UserCard"
-import { useState, useEffect } from "react"
+import { useContext, useState } from "react"
 import Form from 'react-bootstrap/Form';
-
+import { UserContext } from "../context/UserContext";
 
 export default function Home() {
-    const [users, setUsers] = useState([])
-    const [search, setSearch] = useState("")
+    const { users } = useContext(UserContext)
 
-
-    const apiURL = "https://jsonplaceholder.typicode.com/users"
-
-    const getUsers = async () => {
-        const response = await fetch(apiURL);
-        const usuarios = await response.json()
-        setUsers(usuarios)
-    }
-
-    useEffect(() => {getUsers()}, [])
-  
+    const [search, setSearch] = useState("")  
     let usersFiltrados = []
-
     if(!search){
         usersFiltrados = users
     }else{
@@ -28,7 +16,6 @@ export default function Home() {
             user.name.toLowerCase().includes(search.toLowerCase()) || user.phone.toLowerCase().includes(search.toLowerCase()) || user.email.toLowerCase().includes(search.toLowerCase()) || user.address.city.toLowerCase().includes(search.toLowerCase())
         )
     }
-
   return (
     <div>
         <NavigationBar></NavigationBar>
