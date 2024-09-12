@@ -1,25 +1,33 @@
 /* eslint-disable react/prop-types */
 import { createContext, useEffect, useState } from "react";
 
-export const UserContext = createContext()
+export const UserContext = createContext();
 
-const UserProvider = ({ children }) =>{
-    const [users, setUsers] = useState([])
+const UserProvider = ({ children }) => {
+  const [apiUsers, setApiUsers] = useState([]);
+  const [apiUser, setApiUser] = useState({});
 
-    const getUsers = async () => {
-        const response = await fetch(apiURL);
-        const usuarios = await response.json()
-        setUsers(usuarios)
-    }
-    
-    useEffect(() => {getUsers()}, [])
-    const apiURL = "https://jsonplaceholder.typicode.com/users"
+  const getUsers = async () => {
+    const response = await fetch("https://jsonplaceholder.typicode.com/users");
+    const data = await response.json();
+    setApiUsers(data);
+  };
 
-return(
-      <UserContext.Provider value={{users, setUsers}}>
-        {children}
-      </UserContext.Provider>  
-)
-}
+  const getUser = async (id) => {
+    const response = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`);
+    const data = await response.json();
+    setApiUser(data);
+  };
+
+  useEffect(() => {
+    getUsers();
+  }, []);
+
+  return (
+    <UserContext.Provider value={{ apiUsers, setApiUsers, getUser, apiUser }}>
+      {children}
+    </UserContext.Provider>
+  );
+};
 
 export default UserProvider;

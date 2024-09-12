@@ -1,26 +1,27 @@
-import './App.css'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import { Routes, Route } from 'react-router-dom'
-import Home from './views/Home'
-import Landing from './views/Landing'
-import NotFound from './views/NotFound'
-import IniciarSesion from './views/IniciarSesion'
-import UserProvider from './context/UserContext'
+import { Navigate, Route, Routes } from "react-router-dom";
+import "./App.css";
+import Home from "./views/Home";
+import Auth from "./views/Auth";
+import Profile from "./views/Profile";
+import Detail from "./views/Detail";
+import { GlobalContext } from "./context/GlobalContext";
+import { useContext } from "react";
 
 function App() {
+  const { authUser } = useContext(GlobalContext);
+  const token = authUser.token;
+
+
   return (
     <>
-    <UserProvider>
       <Routes>
-        <Route path='/' element={<Landing></Landing>}/>
-        <Route path='/home' element={<Home></Home>} />
-        <Route path='/login' element={<IniciarSesion></IniciarSesion>} />
-        <Route path='/404' element={<NotFound></NotFound>} />
-        <Route path='*' element={<NotFound></NotFound>} />
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={!token? <Auth /> : <Navigate to="/" />} />
+        <Route path="/detail/:id" element={token ? <Detail /> : <Navigate to="/login" />} />
+        <Route path="/profile" element={token ? <Profile /> : <Navigate to="/login" />} />
       </Routes>
-    </UserProvider>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

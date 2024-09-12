@@ -1,5 +1,5 @@
 {
-  "name": "react-routes",
+  "name": "apoyo-tutoria-router",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -14,8 +14,7 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.4",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.26.1",
-    "sweetalert2": "^11.12.4"
+    "react-router-dom": "^6.26.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.56",

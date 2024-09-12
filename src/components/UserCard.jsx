@@ -1,18 +1,31 @@
 /* eslint-disable react/prop-types */
-import Card from "react-bootstrap/Card";
-import ListGroup from "react-bootstrap/ListGroup";
+import { Button, Card } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { GlobalContext } from "../context/GlobalContext";
+import { useContext } from "react";
 
-export default function UserCard({usuario}) {
-    const { name="No especifica", phone="No especifica", address, email="No especifica", } = usuario;
-
+export default function UserCard({ user }) {
+  const { authUser } = useContext(GlobalContext);
+  const navigate = useNavigate();
+  const handleClick = (id) => {
+    navigate(`/detail/${id}`);
+  };
   return (
     <Card style={{ width: "18rem" }}>
-      <Card.Header>{name}</Card.Header>
-      <ListGroup variant="flush">
-        <ListGroup.Item>Telefono: {phone}</ListGroup.Item>
-        <ListGroup.Item>Email: {email}</ListGroup.Item>
-        <ListGroup.Item>Ciudad: {address.city}</ListGroup.Item>
-      </ListGroup>
+      <Card.Body>
+        <Card.Title>{user.name}</Card.Title>
+        <Card.Subtitle className="mb-2 text-muted">{user.phone}</Card.Subtitle>
+        <Card.Text>{user.email}</Card.Text>
+        <Button
+          variant="primary"
+          disabled={authUser.token ? false : true}
+          onClick={() => {
+            handleClick(user.id);
+          }}
+        >
+          {authUser.token ? "Ver detalle" : "Inicia sesión para ver detalle"}
+        </Button>
+      </Card.Body>
     </Card>
   );
 }
